@@ -1,4 +1,3 @@
-from distutils.cmd import Command
 import tkinter
 import tkinter.messagebox
 
@@ -7,15 +6,6 @@ window = tkinter.Tk()
 window.geometry("500x500")
 window.resizable(False, False)
 window.title("To-Do-List")
-
-#Adiciona o nome da lista
-def add_list_name():
-    if entry_list.get() != "":
-        tkinter.Button(main_frame, text=f'{entry_list.get()}').pack()
-    else:
-        tkinter.messagebox.showerror(
-            title="Aviso!", message="Voce deve digitar o nome da lista!")
-
 
 # Criar label frame
 label_frame = tkinter.LabelFrame(window)
@@ -39,6 +29,18 @@ main_canvas.create_window((0,0), window= main_frame, anchor="nw")
 label_frame.pack(fill="both", expand="yes", padx=10, pady=10)
 label_frame2.pack(fill="both", expand="yes", padx=10, pady=10)
 
+# for i in range(50):
+#     tkinter.Button(main_frame, text="test"+str(i), width=73, padx=3).pack()
+
+
+#Adiciona o nome da lista
+def add_list_name():
+    if entry_list.get() != "":
+        tkinter.Button(main_frame, text=f"{entry_list.get()}", width=73, padx=3).pack()
+    else:
+        tkinter.messagebox.showerror(
+            title="Aviso!", message="Voce deve digitar o nome da lista!")
+
 
 #Cria botão de adicionar tarefas
 button = tkinter.Button(label_frame2, text="ADD LIST",command=add_list_name, width=98)
@@ -47,5 +49,9 @@ button.pack(fill=tkinter.Y, side=tkinter.BOTTOM)
 # Input de texto 
 entry_list = tkinter.Entry(label_frame2, width=100)
 entry_list.pack(fill=tkinter.Y, side=tkinter.BOTTOM)
+
+
+
+
 
 window.mainloop()
