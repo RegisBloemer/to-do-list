@@ -10,16 +10,16 @@ window.title("To-Do-List")
 # Criar label frame
 label_frame = tkinter.LabelFrame(window)
 label_frame2 = tkinter.LabelFrame(window)
+
 #Criar canvas
 main_canvas = tkinter.Canvas(label_frame)
 main_canvas.pack(side=tkinter.LEFT, fill='both', expand="yes")
 
-#Criar scroollbar_lists
-scroolbar_lists = tkinter.Scrollbar(label_frame, orient="vertical", command=main_canvas.yview)
-scroolbar_lists.pack(side=tkinter.RIGHT, fill="y")
+#Criar e configura a scrollbar
+scroolbar_lists = tkinter.Scrollbar(label_frame, orient="vertical", command = main_canvas.yview)
+scroolbar_lists.pack(side=tkinter.RIGHT, fill = tkinter.Y)
 main_canvas.configure(yscrollcommand=scroolbar_lists.set)
-
-main_canvas.bind('<Configure>', lambda e: main_canvas.configure(scrollregion = main_canvas.bbox('all')))
+main_canvas.bind('<Configure>', lambda e: adjust_scrollregion(e))
 
 #Criar Frame
 main_frame = tkinter.Frame(main_canvas)
@@ -29,15 +29,18 @@ main_canvas.create_window((0,0), window= main_frame, anchor="nw")
 label_frame.pack(fill="both", expand="yes", padx=10, pady=10)
 label_frame2.pack(fill="both", padx=10, pady=10)
 
+#Atualiza scrollbar_tasks quando novos elementos são colocados 
+def adjust_scrollregion(event):
+    main_canvas.configure(scrollregion=main_canvas.bbox("all"))
+    main_frame.bind("<Configure>", adjust_scrollregion)
 
 #Adiciona o nome da lista
 def add_list_name():
     if entry_list.get() != "":
         tkinter.Button(main_frame, text=f"{entry_list.get()}", width=73, padx=3, command=open_new_window).pack()
     else:
-        tkinter.messagebox.showerror(
+        tkinter.messagebox.showwarning(
             title="Aviso!", message="Voce deve digitar o nome da lista!")
-
 
 #Cria botão de adicionar tarefas
 button = tkinter.Button(label_frame2, text="ADD LIST",command=add_list_name, width=98)
