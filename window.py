@@ -1,54 +1,78 @@
 import tkinter
 import tkinter.messagebox
 from new_Window import open_new_window
+import control
+
+ctrl = control.Control()
+ctrl.load_all()
+list_ids = []
 
 window = tkinter.Tk()
-window.geometry("500x500")
 window.resizable(False, False)
 window.title("To-Do-List")
 
-# Criar label frame
-label_frame = tkinter.LabelFrame(window)
-label_frame2 = tkinter.LabelFrame(window)
 
-#Criar canvas
-main_canvas = tkinter.Canvas(label_frame)
-main_canvas.pack(side=tkinter.LEFT, fill='both', expand="yes")
+def load_lists_in_gui():
+    lists = ctrl.get_lists()
+    for id in lists:
+        listbox_lists.insert(tkinter.END, lists[id])
+        list_ids.append(id)
 
-#Criar e configura a scrollbar
-scroolbar_lists = tkinter.Scrollbar(label_frame, orient="vertical", command = main_canvas.yview)
-scroolbar_lists.pack(side=tkinter.RIGHT, fill = tkinter.Y)
-main_canvas.configure(yscrollcommand=scroolbar_lists.set)
-main_canvas.bind('<Configure>', lambda e: adjust_scrollregion(e))
-
-#Criar Frame
-main_frame = tkinter.Frame(main_canvas)
-main_canvas.create_window((0,0), window= main_frame, anchor="nw")
-
-#Exibir label_frame
-label_frame.pack(fill="both", expand="yes", padx=10, pady=10)
-label_frame2.pack(fill="both", padx=10, pady=10)
-
-#Atualiza scrollbar_tasks quando novos elementos são colocados 
-def adjust_scrollregion(event):
-    main_canvas.configure(scrollregion=main_canvas.bbox("all"))
-    main_frame.bind("<Configure>", adjust_scrollregion)
-
-#Adiciona o nome da lista
-def add_list_name():
-    if entry_list.get() != "":
-        tkinter.Button(main_frame, text=f"{entry_list.get()}", width=73, padx=3, command=open_new_window).pack()
+#Funções para adicionar, deletar, carregar e salvar 
+def add_list():
+    name = entry_list.get()
+    if name != "":
+        listbox_lists.insert(tkinter.END, name)
+        entry_list.delete(0, tkinter.END)
+        new_id = ctrl.add_list(name)
+        list_ids.append(new_id)
     else:
         tkinter.messagebox.showwarning(
-            title="Aviso!", message="Voce deve digitar o nome da lista!")
+            title="Aviso!", message="Voce deve digitar o nome da list!")
 
-#Cria botão de adicionar tarefas
-button = tkinter.Button(label_frame2, text="ADD LIST",command=add_list_name, width=98)
-button.pack(fill=tkinter.Y, side=tkinter.BOTTOM)
+def delete_list():
+    try:
+        list_index = listbox_lists.curselection()[0]
+        listbox_lists.delete(list_index)
+        ctrl.remove_list(list_ids[list_index])
+        del list_ids[list_index]
+    except:
+        tkinter.messagebox.showwarning(
+            title="Aviso!", message="Voce deve selecionar a list!")
 
-# Input de texto 
-entry_list = tkinter.Entry(label_frame2, width=100)
-entry_list.pack(fill=tkinter.Y, side=tkinter.BOTTOM)
+def open_list():
+    try:
+        selection_list = listbox_lists.curselection()[0]
+        open_new_window(ctrl, list_ids[selection_list])
+    except:
+        tkinter.messagebox.showwarning(
+            title="Falha na leitura!", message="Voce deve selecionar uma lista para abrir")
 
+#Create de GUI
+frame_lists = tkinter.Frame(window)
+frame_lists.pack()
 
-window.mainloop()
+listbox_lists = tkinter.Listbox(frame_lists, height=20, width= 50)
+listbox_lists.pack(side = tkinter.LEFT)
+
+scrollbar_lists = tkinter.Scrollbar(frame_lists)
+scrollbar_lists.pack(side=tkinter.RIGHT, fill = tkinter.Y)
+
+listbox_lists.config(yscrollcommand = scrollbar_lists.set)
+scrollbar_lists.config(command=listbox_lists.yview)
+
+entry_list =tkinter.Entry(window, width=50 )
+entry_list.pack()
+
+#Botões de adicionar, deletar, carregar e salvar 
+button_add_list = tkinter.Button(window, text="Add lista", width=48, command=add_list)
+button_add_list.pack()
+
+button_delete_list = tkinter.Button(window, text="Excluir lista", width=48, command=delete_list)
+button_delete_list.pack()
+
+button_open_lists = tkinter.Button(window, text="Abrir lista", width=48, command=open_list)
+button_open_lists.pack()
+
+load_lists_in_gui()
+window.mainloop()   

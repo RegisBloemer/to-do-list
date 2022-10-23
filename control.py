@@ -41,11 +41,13 @@ class Control:
         data_base.add_list_data_base(name)
         new_id = data_base.get_last_list_id()
         self.lists[new_id] = List(name, {})
+        return new_id
 
     def add_task_to_list(self, description: str, list_id: int):
         data_base.add_task_data_base(description, list_id)
         new_task_id = data_base.get_last_task_id()
         self.lists[list_id].add_task(description, new_task_id)
+        return new_task_id
 
     #Funções de remoção da lista e task 
     def remove_list(self, list_id: int):
@@ -59,9 +61,9 @@ class Control:
     #Funções para pegar as listas e task para a GUI
     def get_lists(self):
         list_table = {}
-        for id in self.lists.keys():
+        for id in self.lists:
             list_table[id] = self.lists[id].get_name()
-        return list_table
+        return list_table # {list_id: name, ...}
 
     def get_tasks_from_list(self, list_id: int):
         return self.lists[list_id].get_tasks()
