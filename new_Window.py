@@ -42,23 +42,23 @@ def open_new_window(ctrl, list_id):
     frame_tasks = tkinter.Frame(new_window)
     frame_tasks.pack()
 
-    listbox_tasks = tkinter.Listbox(frame_tasks, height=20, width= 50)
+    listbox_tasks = tkinter.Listbox(frame_tasks, height=20, width= 50, selectbackground="#FFFFFF", bg="#F2F5FF")
     listbox_tasks.pack(side = tkinter.LEFT)
 
-    scrollbar_tasks = tkinter.Scrollbar(frame_tasks)
+    scrollbar_tasks = tkinter.Scrollbar(frame_tasks, relief="flat", background="#2C1A55")
     scrollbar_tasks.pack(side=tkinter.RIGHT, fill = tkinter.Y)
 
     listbox_tasks.config(yscrollcommand = scrollbar_tasks.set)
     scrollbar_tasks.config(command=listbox_tasks.yview)
 
-    entry_task =tkinter.Entry(new_window, width=50 )
-    entry_task.pack()
+    entry_task =tkinter.Entry(new_window, bg="#F2F5FF")
+    entry_task.pack(ipadx = 95, ipady=10, padx=3)
 
 #Botões de adicionar, deletar, carregar e salvar 
-    button_add_task = tkinter.Button(new_window, text="Add task", width=48, command=add_task)
+    button_add_task = tkinter.Button(new_window, text="Add task", width=48, command=add_task, relief="flat" ,fg="#2C1A55", bg="#FF700A", pady = 10)
     button_add_task.pack()
 
-    button_delete_task = tkinter.Button(new_window, text="Excluir task", width=48, command=delete_task)
+    button_delete_task = tkinter.Button(new_window, text="Excluir task", width=48, command=delete_task, relief="flat" ,fg="#2C1A55", bg="#FF700A", pady = 10)
     button_delete_task.pack()
 
     load_tasks_in_gui()
