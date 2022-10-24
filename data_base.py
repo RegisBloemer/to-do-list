@@ -1,3 +1,13 @@
+#-Autor: Régis Nyland Bloemer
+#-Contado: regisnb1@gmail.com
+#
+#->data_base.py
+#->Criação do modelo físico gerado pelo Modelo Lógico usando freeware brModelo (2.0.0)
+#->Funções que adicionam e removem diretamente do banco de dados 
+#->Funções de busca de listas e tasks diretamente no banco de dados
+#
+#_Criado em Outubro de 2022_____________________________________________
+
 import sqlite3
 
 #Conexão com o banco de dados

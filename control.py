@@ -1,3 +1,12 @@
+#Autor: Régis Nyland Bloemer
+#Contado: regisnb1@gmail.com
+#
+#->control.py
+#->Funções que fazem a conecção entre o banco de dados e a interface gráfica
+#
+#_Criado em Outubro de 2022_________________________________________________________
+
+
 import data_base
 
 class List:
