@@ -6,7 +6,6 @@
 #
 #_Criado em Outubro de 2022_________________________________________________________
 
-
 import data_base
 
 class List:
@@ -27,7 +26,8 @@ class List:
     #Funções que que retorna as tasks e nome da lista
     def get_tasks(self):
         return self.tasks
-
+    
+    #Função que retorna o nome da lista
     def get_name(self):
         return self.name
 

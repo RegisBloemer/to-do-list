@@ -15,23 +15,11 @@ data_base = sqlite3.connect('data_base')
 cursor = data_base.cursor()
 
 # ps é a função para preparação de strings para a query impedindo SQL injection (Prepared Statement)
-# É chamada em toda query
 def ps(_str: str):
+    # return _str
     var_str = _str.replace("\\", "\\\\")
     var2_str = var_str.replace("\'", "\'\'")
-    #var3_str = var2_str.replace("\"", "\\\"")
     return var2_str
-
-#Função para reconstruir o banco de dados
-def recostruct_data_base():
-    cursor.execute("DROP TABLE Task;")
-    cursor.execute("DROP TABLE List;")
-    cursor.execute(
-        "CREATE TABLE List (name tinytext,list_id integer PRIMARY KEY AUTOINCREMENT);")
-    cursor.execute(
-        "CREATE TABLE Task (description text,list_id integer,task_id integer PRIMARY KEY AUTOINCREMENT,FOREIGN KEY(list_id) REFERENCES List (list_id));")
-    data_base.commit()
-
 
 #Funções de adição
 # Função que adiciona a lista pelo nome na tabela lista ao banco de dados
@@ -45,7 +33,6 @@ def add_task_data_base(description, list_id: int):
     cursor.execute(
         f"INSERT INTO Task (description, list_id) VALUES ('{ps(description)}', {list_id});")
     data_base.commit()
-
 
 #Funções de remoção
 #Função que deleta a task pelo seu task_id da tabela task no banco de dados
@@ -73,7 +60,8 @@ def get_list_data_base():
         dict_table.append({"name": line[0], "list_id": line[1]}) # [{"name":name, "list_id":list_id}, ...]
     return dict_table #table foi trasformado em dicionário para facilitar o entendimento
 
-#Função que pega task das suas respectivas listas 
+#Funções que buscam no banco de dados
+#Função que pega task das suas respectiva lista 
 def get_task_from_list_data_base(list_id: int):
     data_tasks = cursor.execute(
         f"SELECT description, task_id FROM Task WHERE list_id = {list_id}")    # Traduzindo tabela para um dicionário
@@ -86,7 +74,7 @@ def get_task_from_list_data_base(list_id: int):
 #Função para buscar o maior id na tabela Task
 def get_last_task_id():
     data_tasks = cursor.execute(f"SELECT MAX(task_id) FROM Task")
-    res = data_tasks.fetchall() # Sempre vai retornar isso uma lista de tuplas : [(id)]
+    res = data_tasks.fetchall() # Sempre vai retornar isso, uma lista de tuplas : [(id)]
     if len(res) == 0:
         return 0
     return res[0][0] # Tupla 0 item 0
@@ -94,7 +82,7 @@ def get_last_task_id():
 #Função para buscar o maior id na tabela List
 def get_last_list_id():
     data_tasks = cursor.execute(f"SELECT MAX(list_id) FROM List")
-    res = data_tasks.fetchall()  #Sempre vai retornar isso uma lista de tuplas : [(id)]
+    res = data_tasks.fetchall()  #Sempre vai retornar isso, uma lista de tuplas : [(id)]
     if len(res) == 0:
         return 0
     return res[0][0] # Tupla 0 item 0

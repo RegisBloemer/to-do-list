@@ -90,3 +90,4 @@ def open_new_window(ctrl, list_id):
 
     load_tasks_in_gui()
     new_window.mainloop()   
+    
