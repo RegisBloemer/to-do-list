@@ -10,7 +10,7 @@ import data_base
 
 class List:
 
-    #Inicializa os atributos name(string) e tasks(dicionário)  
+    #Inicializa os atributos name(string) e tasks(dicionário)
     def __init__(self, name: str, tasks: dict):
         self.name: str = name
         self.tasks: dict = tasks

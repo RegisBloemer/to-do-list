@@ -16,10 +16,14 @@ cursor = data_base.cursor()
 
 # ps é a função para preparação de strings para a query impedindo SQL injection (Prepared Statement)
 def ps(_str: str):
-    # return _str
+
     var_str = _str.replace("\\", "\\\\")
     var2_str = var_str.replace("\'", "\'\'")
     return var2_str
+
+# Função não segura, para propósitos de testes
+# def ps(_str: str):
+    # return _str
 
 #Funções de adição
 # Função que adiciona a lista pelo nome na tabela lista ao banco de dados

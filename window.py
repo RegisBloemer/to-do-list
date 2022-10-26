@@ -22,14 +22,14 @@ photo = tkinter.PhotoImage(file = "./icones/icone.png")
 window.iconphoto(False, photo)
 window.title("To-Do-List")
 
-
+#Carrega todas as listas do banco de dados na GUI quando o programa inicia
 def load_lists_in_gui():
     lists = ctrl.get_lists()
     for id in lists:
         listbox_lists.insert(tkinter.END, lists[id])
         list_ids.append(id)
 
-#Funções para adicionar, deletar, carregar e salvar 
+#Funções para adicionar, deletar, e abrir lista selecionada 
 def add_list():
     name = entry_list.get()
     if name != "":
@@ -39,7 +39,7 @@ def add_list():
         list_ids.append(new_id)
     else:
         tkinter.messagebox.showwarning(
-            title="Aviso!", message="Voce deve digitar o nome da list!")
+            title="Aviso!", message="Voce deve digitar o nome da lista!")
 
 def delete_list():
     try:
@@ -49,7 +49,7 @@ def delete_list():
         del list_ids[list_index]
     except:
         tkinter.messagebox.showwarning(
-            title="Aviso!", message="Voce deve selecionar a list!")
+            title="Aviso!", message="Voce deve selecionar a lista!")
 
 def open_list():
     try:

@@ -13,17 +13,16 @@ import tkinter
 def open_new_window(ctrl, list_id):
     new_window = tkinter.Tk()
     new_window.resizable(False, False)
-    new_window.title("Tasks")
+    new_window.title("List Tasks")
 
     task_ids = []
-
+    
+#Função que carrega todas as tasks na GUI quando o programa inicia
     def load_tasks_in_gui():
         tasks = ctrl.get_tasks_from_list(list_id)
         for id in tasks:
             listbox_tasks.insert(tkinter.END, tasks[id])
             task_ids.append(id)
-            print("loop")
-        print("2")
 
 #Funções para adicionar, deletar, carregar e salvar 
     def add_task():
